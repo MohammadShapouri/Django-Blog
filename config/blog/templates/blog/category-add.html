@@ -1,0 +1,45 @@
+{% include 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+
+
+{% block context %}
+    <div class="articleForm">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="categoryForm-parent">
+                <p>{{form.parent.label_tag}}<p>
+                <div class="categoryForm-parent-list">
+                {{form.parent}}                    
+                </div>
+            </div>
+
+            <div class="categoryForm-title">
+                <p>{{form.title.label_tag}}</p>
+                {{form.title|add_class:"categoryForm-title-textBox"}}                
+            </div>
+
+            <div class="categoryForm-submit">
+                <input type="submit" value="ذخیره"/>        
+            </div>
+        </form>
+    </div>
+
+
+    {% for field in form %}
+    <p>
+    {% for error in field.errors %}
+    <p style="color: red">{{ error }}</p>
+    {% endfor %}
+    </p>
+    {% endfor %}
+    {% if form.non_field_errors %}
+    <div style="color: red">
+        <p>{{form.non_field_errors}}</p>
+    </div>
+    {% endif %}
+
+{% endblock %}

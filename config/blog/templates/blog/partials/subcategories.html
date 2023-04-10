@@ -1,0 +1,22 @@
+
+
+
+
+{% for category in category.child.all %}
+
+        <!-- Category preview-->
+
+        <div class="post-preview">
+            <a href="{% url 'viewCategorysArticles' category.slug %}">
+                <h2 class="post-title">{{ category.title }}</h2>
+            </a>
+        </div>
+            {% if category.child.all %}
+
+                {% include 'blog/partials/subcategories.html' %}
+
+            {% endif %}
+
+
+
+{% endfor %}

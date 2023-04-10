@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+
+    {% block content %}
+
+
+        {{userDetail.first_name}}   <br>
+        {{userDetail.last_name}}    <br>
+        {{userDetail.email}}        <br>
+
+    <div class="articleForm">
+        <form id="articleStatusForm">
+            
+            <label for="articleStatus">فیلتر مقالات بر اساس:</label>
+            <select name="articleStatus" id="articleStatus">
+                <option value="all" id="allArticles" {% if articleStatus != 'p, d, r' %} selected="True" {%endif%}>همه مقالات</option>
+                <option value="p" id="publishedArticles" {% if articleStatus == 'p' %} selected="True" {%endif%}>منتشر شده</option>
+                <option value="d" id="draftedArticles" {% if articleStatus == 'd' %} selected="True" {%endif%}>پیش نویس</option>
+                <option value="r" id="returnedArticles" {% if articleStatus == 'r' %} selected="True" {%endif%}>برگشت داده شده</option>
+            </select>
+
+            
+        </form>
+    </div>
+
+                                    <br>
+        {% if object_list %}
+
+            {% for object in object_list %}
+                <div class="articleDemo">
+                    <div class="articleDemo-title"><a href="{% url 'ArticleDetail' object.status object.slug %}"><h1> {{ object.title }} </h1></a></div>
+                    <div class="articleDemo-owner"><p>article owner</p></div>
+                    <div class="articleDemo-description"><p> {{ object.description|truncatewords:30 }} </p></div>
+                </div>
+            {% endfor %}
+
+        {% else %}
+                <p>Nothing Found!</p>
+        {% endif %}
+
+
+
+
+
+
+        <script>
+
+            var form = document.getElementById("articleStatusForm");
+
+            document.getElementById("allArticles").addEventListener("click", function () {
+            form.submit();
+            });
+            document.getElementById("publishedArticles").addEventListener("click", function () {
+            form.submit();
+            });
+            document.getElementById("draftedArticles").addEventListener("click", function () {
+            form.submit();
+            });
+            document.getElementById("returnedArticles").addEventListener("click", function () {
+            form.submit();
+            });
+
+        </script>
+
+    {% endblock %}

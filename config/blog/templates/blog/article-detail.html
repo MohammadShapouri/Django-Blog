@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+
+{% block content %}
+
+<div class="article-thumbnail"><img src="{{ object.thumbnail.url }}" id="article-thumbnail"></div>
+<div class="article-title"><h1>{{ object.title }}</h1></div>
+<div class="article-owner"><h2> object.owner مقاله ای از</h2></div>
+<div class="article-date"><h4>{{ object.jalali_publish_date }}</h4></div>
+<div class="article-description"><p>{{ object.description }}</p></div>
+
+{% if object.category.completed_category %}
+    {% for object_category in object.category.completed_category %}
+        <div class="article-description"><p>{{ object_category }}</p></div>
+    {% endfor %}
+{% endif %}
+
+
+{% endblock content %}

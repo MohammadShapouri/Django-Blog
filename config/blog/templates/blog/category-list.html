@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subcategory %}
+    
+    
+    
+{% block content %}
+    
+
+
+    <div class="page-title">
+        <h3>لیست دسته بندی ها</h3>
+    </div>
+    
+
+
+    {% if request.user.is_superuser or request.user.is_staff %}
+    <div class="admin-choices">
+        <div>
+            <label for="categoryStatus">دسته بندی:</label>
+        </div>
+        <form id="categoryStatusForm" class="admin-form">
+            <div>
+                <select name="categoryStatus" id="categoryStatus" class="admin-select">
+                    <option value="p" id="publishedCategories">منتشر شده</option>
+                    <option value="d" id="draftedCategories">پیش نویس</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+
+
+    {% if object_list.all %}
+
+        {% if requestedStatus == 'd' %}
+
+            {% for object in object_list %}
+                <a href="#{{object.title}}">
+                    <div class='subcategory'>
+                        <div class='category-info'>
+                            <h1>
+                                {% if request.user.is_superuser or request.user.is_staff %}                         
+                                    <a href="{% url 'EditCategory' object.slug %}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                        </svg>
+                                    </a>
+                                {% endif %}
+                                <a href="{% url 'CategoryDetail' object.slug %}">{{ object.title }}</a>
+                            </h1>
+                        </div>
+                        {% subcategory object request %}
+                    </div>
+                </a>
+            {% endfor %}
+
+        {% else %}
+
+            {% for object in object_list %}
+                {% if object.is_parent %}
+                    <a href="#{{object.title}}">
+                        <div class='subcategory'>
+                            <div class='category-info'>
+                                <h1>
+                                    {% if request.user.is_superuser or request.user.is_staff %}                         
+                                        <a href="{% url 'EditCategory' object.slug %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                            </svg>
+                                        </a>
+                                    {% endif %}
+                                    <a href="{% url 'CategoryDetail' object.slug %}">{{ object.title }}</a>
+                                </h1>
+                            </div>
+                            {% subcategory object request %}
+                        </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+    {% else %}
+        <div class="no-data">
+            <h2>دسته بندی ای وجود ندارد.</h2>
+        </div>
+    {% endif %}
+
+
+
+        <script>
+            var form = document.getElementById('categoryStatusForm');
+
+            document.getElementById('publishedCategories').addEventListener("click", function() {
+                form.submit();
+            });
+            document.getElementById('draftedCategories').addEventListener("click", function() {
+                form.submit();
+            });
+        </script>
+
+
+
+
+
+
+    
+{% endblock content %}

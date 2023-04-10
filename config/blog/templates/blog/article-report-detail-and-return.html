@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+
+{% block content %}
+
+<div class="article-thumbnail"><img src="{{ object.thumbnail.url }}" id="article-thumbnail"></div>
+<div class="article-title"><h1>{{ article.title }}</h1></div>
+<div class="article-owner"><h2> article.owner مقاله ای از</h2></div>
+<div class="article-date"><h4>{{ article.jalali_publish_date }}</h4></div>
+<div class="article-description"><p>{{ article.description }}</p></div>
+{% if article.category.completed_cateogry %}
+    {% for object_category in article.category.completed_cateogry %}
+        <div class="article-description"><p>{{ object_category }}</p></div>
+    {% endfor %}
+{% endif %}
+
+
+{% for articleReport in articleReports %}
+    {{ articleReport.get_reason_display }}
+    {{ articleReport.description }}
+    {{ articleReport.creation_date }}
+    <br>
+    <br>
+{% endfor %}
+
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" name="return" value="return"/>
+    <input type="submit" name="ignore" value="ignore"/>
+</form>
+
+
+{% endblock content %}
+
+

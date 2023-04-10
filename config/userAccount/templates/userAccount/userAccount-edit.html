@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+
+    {% block content %}
+    <div class="articleForm">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{form.as_p}}
+
+            <div class="articleForm-submit">
+                <input type="submit" value="ذخیره"/>        
+            </div>
+            
+        </form>
+    </div>
+
+
+
+            {% for field in form %}
+            <p>
+            {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+            {% endfor %}
+            </p>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            <div style="color: red">
+                <p>{{form.non_field_errors}}</p>
+            </div>
+            {% endif %}
+
+    {% endblock %}

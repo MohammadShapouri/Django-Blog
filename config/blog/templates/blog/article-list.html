@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+    
+
+
+    <div class="page-title">
+        <h3>لیست مقالات</h3>
+    </div>
+
+
+
+    <div class="list-view">
+        {% for object in object_list %}
+            <a href="{% url 'ArticleDetail' object.slug %}">
+                <div class='tile'>
+                <img class='tile-img' src="{{ object.thumbnail.url }}" />
+                <div class='tile-info'>
+                    <h1>{{ object.title }}</h1>
+                    <p class="article-content-intro">{{ object.description|truncatewords:30 }}</p>
+                </div>
+                </div>
+            </a> 
+        {% endfor %}
+    </div>
+
+
+{% endblock content %}

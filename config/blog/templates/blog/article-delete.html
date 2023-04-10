@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+
+
+
+
+{% block content %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+        
+        <p>آیا می خواهید {{ object.title }} حذف شود؟</p>
+        <input type="submit" value="حذف"/>
+        
+    </form>
+
+{% endblock content %}
